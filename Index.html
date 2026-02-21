@@ -1,0 +1,719 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One Page Style Amazon</title>
+
+   <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: #111;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #131921;
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: auto;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* --- AJUSTES PARA CELULARES --- */
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column; /* Pone el logo arriba y el menú abajo */
+        gap: 15px;
+    }
+
+    nav ul {
+        flex-wrap: wrap;       /* Si no caben en una línea, saltan a la siguiente */
+        justify-content: center;
+        gap: 10px;             /* Reduce el espacio entre botones */
+    }
+
+    nav ul li a {
+        font-size: 13px;       /* Achica un poco la letra para que quepan todos */
+        padding: 5px 8px;
+    }
+}
+
+        .logo {
+            color: #ff9900;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        nav ul li a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        nav ul li a:hover,
+        nav ul li a.active {
+            color: #ff9900;
+            font-weight: bold;
+            border-bottom: 2px solid #ff9900;
+            padding-bottom: 4px;
+        }
+
+        section {
+            min-height: 100vh;
+            padding: 120px 20px 80px;
+            max-width: 1200px;
+            margin: auto;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #131921;
+        }
+
+        p {
+            max-width: 700px;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        #inicio, #servicios, #contacto {
+            background-color: #f3f3f3;
+        }
+
+        #acerca, #blog {
+            background-color: #ffffff;
+        }
+
+        /* GALERÍA DE SERVICIOS */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 6px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.05);
+        }
+
+        footer {
+            background-color: #131921;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+        }
+
+        /* TARJETAS DE BLOG */
+        .blog-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .blog-card {
+            background-color: #ffffff;
+            border-radius: 6px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: left; /* Asegura alineación izquierda dentro de la tarjeta */
+        }
+
+        .blog-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 24px rgba(0,0,0,0.2);
+        }
+
+        .blog-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .blog-card-content {
+            padding: 18px;
+        }
+
+        .blog-card h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #131921;
+        }
+
+        .blog-card p {
+            font-size: 14px;
+            color: #444;
+            margin-bottom: 15px;
+            max-width: 100%; /* Resetea el max-width de 700px para las tarjetas */
+        }
+
+        .blog-card a {
+            font-size: 14px;
+            color: #ff9900;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .blog-card a:hover {
+            text-decoration: underline;
+        }
+
+        /* HERO IMAGE */
+        .hero {
+            height: 100vh;
+            width: 100%;
+            /* margin-top: 70px;  <-- ELIMINAMOS ESTA LÍNEA */
+            padding-top: 80px; /* Añadimos esto para que el texto no quede tapado por el menú */
+            background-image: url("https://images.pexels.com/photos/4254165/pexels-photo-4254165.jpeg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.35);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            padding: 0 40px;
+            color: #fff;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .hero-content h1 {
+            font-size: 42px;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            max-width: 600px;
+            color: #f1f1f1;
+        }
+
+        /* SECCIONES 50/50 */
+        .about-container, .inicio-container, .servicios-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .inicio-image, .inicio-text, .about-text, .about-image, .servicios-image, .servicios-text {
+            width: 50%;
+        }
+
+        .inicio-image { background-image: url("https://images.pexels.com/photos/257736/pexels-photo-257736.jpeg"); background-size: cover; background-position: center; }
+        .about-image { background-image: url("https://images.pexels.com/photos/4254165/pexels-photo-4254165.jpeg"); background-size: cover; background-position: center; }
+        .servicios-image { background-image: url("https://images.pexels.com/photos/2760243/pexels-photo-2760243.jpeg"); background-size: cover; background-position: center; }
+
+        .inicio-text, .about-text, .servicios-text {
+            padding: 80px 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* FORMULARIO CONTACTO */
+        .contact-form {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            text-align: left; /* El formulario se mantiene alineado a la izquierda internamente */
+        }
+
+        .contact-form input, .contact-form textarea {
+            padding: 12px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .contact-form button {
+            background-color: #ff9900;
+            color: #111;
+            border: none;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .inicio-container, .about-container, .servicios-container { flex-direction: column; }
+            .inicio-image, .inicio-text, .about-image, .about-text, .servicios-image, .servicios-text { width: 100%; min-height: 50vh; }
+        }
+
+        /* CENTRADO ESPECÍFICO PARA BLOG Y CONTACTO */
+        #blog, #contacto {
+            text-align: center;
+        }
+
+        #blog h1, #contacto h1 {
+            text-align: center;
+        }
+
+        #blog > p, #contacto > p {
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Contenedor de la barra (fondo gris claro o transparente) */
+.progress-container {
+    position: absolute; /* Cambiado de fixed a absolute */
+    bottom: 0;          /* Se pega al borde inferior del header */
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1); /* Un fondo muy sutil para ver el carril */
+    z-index: 1002;
+}
+
+.progress-bar {
+    height: 100%;
+    background: #ff9900;
+    width: 0%;
+    transition: width 0.1s ease; /* Movimiento más suave */
+}
+
+.whatsapp-float {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 40px;
+    right: 40px;
+    background-color: #25d366;
+    border-radius: 50px;
+    text-align: center;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.1);
+}
+
+.whatsapp-float img {
+    width: 35px;
+    height: 35px;
+}
+
+/* Estilos para el icono de carga */
+.spinner {
+    display: none; /* Oculto por defecto */
+    width: 18px;
+    height: 18px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+    margin-right: 10px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Ajuste para que el botón alinee el texto y el spinner */
+.contact-form button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* Estilos del mensaje de éxito */
+.modal-exito {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-contenido {
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 400px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: slideDown 0.4s ease;
+}
+
+.icono-check {
+    width: 60px;
+    height: 60px;
+    background: #ff9900;
+    color: white;
+    font-size: 30px;
+    line-height: 60px;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+}
+
+.modal-contenido h2 { color: #131921; margin-bottom: 10px; }
+.modal-contenido p { color: #555; margin-bottom: 25px; }
+
+.modal-contenido button {
+    background: #131921;
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+
+    </style>
+
+</head>
+<body>
+
+
+<header>
+    <nav>
+        <div class="logo">Climate Pro</div>
+        <ul>
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#acerca">Acerca</a></li>
+            <li><a href="#servicios">Servicios</a></li>
+            <li><a href="#blog">Blog</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+        </ul>
+    </nav>
+
+<div class="progress-container">
+        <div class="progress-bar" id="myBar"></div>
+    </div>
+    
+</header>
+
+
+
+<div class="hero">
+    <div class="hero-content">
+        <div>
+            <h1>Climatización y Refrigeración</h1>
+            <p>
+                Aire acondicionado, sistemas HVAC y cuartos fríos diseñados
+                para máxima eficiencia y rendimiento.
+            </p>
+        </div>
+    </div>
+</div>
+
+
+<section id="inicio">
+    <div class="inicio-container">
+
+        <div class="inicio-image"></div>
+
+        <div class="inicio-text">
+            <h1>SISTEMAS DE CLIMATIZACIÓN</h1>
+
+            <p>
+                En Climate Pro nos encontramos ampliamente capacitados para lograr ofrecerles el mejor servicio en todo momento y asesoramos a nuestros clientes en la definición detallada de la instalación de climatización.
+            </p>
+
+            <p>
+                Especializados en climatización, ventilación de supermercados, oficinas bancarias, hipermercados, centros comerciales, hoteles, hospitales, retail, restaurantes, particulares, entre otros. Todos nuestros trabajos cumplen con las normativas vigentes, garantizando la calidad del aire y la eficiencia energética.
+            </p>
+        </div>
+
+    </div>
+</section>
+
+
+        <div class="inicio-image"></div>
+
+    </div>
+</section>
+
+
+<section id="acerca">
+    <div class="about-container">
+        <div class="about-text">
+            <h1>SOBRE NOSOTROS</h1>
+            <p>
+                Climate Pro nace en 2021 con una clara vocación para dar un servicio de calidad en el 
+sector de la climatización, aunque somos una empresa joven tenemos más de 5 años de 
+experiencia en el sector.</p>
+            <p>
+                Nuestra actividad se centra en el diseño, montaje y mantenimiento de instalaciones, 
+también ofrecemos un servicio técnico para la reparación de equipos de diversas marcas, 
+tanto a particulares, comercial, o empresas, así como su posterior conservación y 
+mantenimiento. 
+            </p>
+        </div>
+
+        <div class="about-image"></div>
+    </div>
+</section>
+
+
+<section id="servicios">
+    <div class="servicios-container">
+
+        <div class="servicios-image"></div>
+
+        <div class="servicios-text">
+            <h1>SERVICIOS OFRECIDOS</h1>
+
+            <ul style="line-height: 1.4; padding-left: 20px;">
+                <li style="margin-bottom: 10px;">Cálculo y diseño de instalaciones.</li>
+                <li style="margin-bottom: 10px;">Instalaciones de sistemas eléctricos de baja tensión.</li>
+                <li style="margin-bottom: 10px;">Suministro e instalación de Equipos Multizona, VRF y Mini VRF y equipos Convencionales.</li>
+                <li style="margin-bottom: 10px;">Climatizaciones con sistemas VRF.</li>
+                <li style="margin-bottom: 10px;">Enfriadoras de agua con Fan-coils y/o climatizadores.</li>
+                <li style="margin-bottom: 10px;">Multi Split (Cassettes, Split, Suelo/Techo, columna).</li>
+                <li style="margin-bottom: 10px;">Red de conductos de fibra.</li>
+                <li style="margin-bottom: 10px;">Red de conductos de chapa galvanizada.</li>
+                <li style="margin-bottom: 10px;">Ventiladores / Extracción en Garajes.</li>
+                <li style="margin-bottom: 10px;">Instalación, mantenimientos preventivos y correctivos de Sistema de Paquetes y Unidades Centrales.</li>
+                <li style="margin-bottom: 10px;">Venta de piezas y equipos de climatización y ventilación.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+    </div>
+</section>
+
+
+
+<section id="blog" style="text-align: center;">
+    <h1>Blog</h1>
+    <p style="margin-left: auto; margin-right: auto;">
+        Artículos y consejos sobre refrigeración, eficiencia energética
+        y mantenimiento de sistemas HVAC.
+    </p>
+
+    <div class="blog-cards">
+        <div class="blog-card" style="text-align: left;">
+            <img src="https://images.unsplash.com/photo-1647022528152-52ed9338611d?w=600&auto=format&fit=crop&q=60" alt="Mantenimiento AC">
+            <div class="blog-card-content">
+                <h3>Mantenimiento preventivo en aire acondicionado</h3>
+                <p>
+                    Conoce por qué el mantenimiento regular alarga la vida útil
+                    de tus equipos y reduce costos.
+                </p>
+                <a href="#">Leer más</a>
+            </div>
+        </div>
+
+        <div class="blog-card" style="text-align: left;">
+            <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&h=400" alt="Cuartos fríos">
+            <div class="blog-card-content">
+                <h3>Buenas prácticas en cuartos fríos</h3>
+                <p>
+                    Recomendaciones clave para conservar productos y mantener
+                    temperaturas estables.
+                </p>
+                <a href="#">Leer más</a>
+            </div>
+        </div>
+
+        <div class="blog-card" style="text-align: left;">
+            <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&h=400" alt="Eficiencia energética">
+            <div class="blog-card-content">
+                <h3>Eficiencia energética en sistemas HVAC</h3>
+                <p>
+                    Cómo optimizar el consumo energético sin afectar el
+                    rendimiento del sistema.
+                </p>
+                <a href="#">Leer más</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="contacto">
+    <h1>Contacto</h1>
+    <p>Envíanos un mensaje y te responderemos a la brevedad.</p>
+
+        <form id="miFormulario" action="enviar.php" method="POST" class="contact-form">
+        <input type="text" name="nombre" placeholder="Nombre" required>
+        <input type="email" name="email" placeholder="Correo electrónico" required>
+        <textarea name="mensaje" placeholder="Mensaje" rows="5" required></textarea>
+        <button type="submit" id="btnEnviar">
+    <span class="spinner" id="loader"></span>
+    <span id="btnTexto">Enviar mensaje</span>
+</button>
+    </form>
+</section>
+
+
+<footer>
+    © 2026 - Todos los derechos reservados
+</footer>
+
+<script>
+    const sections = document.querySelectorAll("section");
+    const menuLinks = document.querySelectorAll("nav ul li a");
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+            }
+        });
+    }, { threshold: 0.3 });
+
+    sections.forEach(section => observer.observe(section));
+
+    window.addEventListener("scroll", () => {
+        let currentSection = "";
+
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop - 150;
+            const sectionHeight = section.offsetHeight;
+
+            if (pageYOffset >= sectionTop && pageYOffset < sectionTop + sectionHeight) {
+                currentSection = section.getAttribute("id");
+            }
+        });
+
+        menuLinks.forEach(link => {
+            link.classList.remove("active");
+            if (link.getAttribute("href") === `#${currentSection}`) {
+                link.classList.add("active");
+            }
+        });
+    });
+
+
+window.onscroll = function() { updateProgressBar() };
+
+function updateProgressBar() {
+    var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = (winScroll / height) * 100;
+    document.getElementById("myBar").style.width = scrolled + "%";
+}
+
+
+const formulario = document.getElementById('miFormulario');
+const loader = document.getElementById('loader');
+const btnTexto = document.getElementById('btnTexto');
+const boton = document.getElementById('btnEnviar');
+
+formulario.onsubmit = function() {
+    // Mostrar spinner y cambiar texto
+    loader.style.display = "inline-block";
+    btnTexto.innerHTML = "Procesando...";
+    
+    // Estilos de deshabilitado
+    boton.style.backgroundColor = "#e88b00"; // Un tono más oscuro del naranja
+    boton.style.cursor = "not-allowed";
+    boton.disabled = true;
+};
+
+// Función para cerrar el modal
+function cerrarModal() {
+    document.getElementById("mensajeExito").style.display = "none";
+    // Limpia la URL para que no vuelva a salir al recargar
+    window.history.replaceState({}, document.title, window.location.pathname);
+}
+
+// Verificar si venimos de un envío exitoso
+window.onload = function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('enviado') === '1') {
+        document.getElementById("mensajeExito").style.display = "flex";
+    }
+};
+
+
+</script>
+
+<a href="https://wa.me/50584496449" class="whatsapp-float" target="_blank">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+</a>
+
+<div id="mensajeExito" class="modal-exito">
+    <div class="modal-contenido">
+        <div class="icono-check">✓</div>
+        <h2>¡Mensaje Enviado!</h2>
+        <p>Gracias por contactar a Climate Pro. Te responderemos muy pronto.</p>
+        <button onclick="cerrarModal()">Aceptar</button>
+    </div>
+</div>
+
+</body>
+
+</html>
