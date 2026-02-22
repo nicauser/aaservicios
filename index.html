@@ -606,7 +606,7 @@ mantenimiento.
     <h1>Contacto</h1>
     <p>Envíanos un mensaje y te responderemos a la brevedad.</p>
 
-        <form id="miFormulario" action="enviar.php" method="POST" class="contact-form">
+        <form id="miFormulario" action="https://nicaragua.free.nf/enviar.php" method="POST" class="contact-form">
         <input type="text" name="nombre" placeholder="Nombre" required>
         <input type="email" name="email" placeholder="Correo electrónico" required>
         <textarea name="mensaje" placeholder="Mensaje" rows="5" required></textarea>
@@ -696,6 +696,16 @@ window.onload = function() {
     if (urlParams.get('enviado') === '1') {
         document.getElementById("mensajeExito").style.display = "flex";
     }
+};
+
+window.onload = function() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('exito') === '1') {
+    document.getElementById('miFormulario').style.display = 'none'; // Oculta formulario
+    document.getElementById('mensajeRespuesta').innerHTML = '<span style="color: green; font-weight: bold;">¡Mensaje enviado con éxito! Te responderé pronto.</span>';
+  } else if (params.get('error') === '1') {
+    document.getElementById('mensajeRespuesta').innerHTML = '<span style="color: red;">Error al enviar. Intenta de nuevo.</span>';
+  }
 };
 
 
