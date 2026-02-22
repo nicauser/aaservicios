@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -580,10 +581,17 @@ mantenimiento.
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('enviado') === '1') {
             document.getElementById("mensajeExito").style.display = "flex";
-        } else if (urlParams.get('error') === '1') {
-            document.getElementById('mensajeRespuesta').innerHTML = '<span style="color: red;">Error al enviar. Intenta de nuevo.</span>';
         }
     };
+    window.onload = function() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('exito') === '1') {
+    document.getElementById('miFormulario').style.display = 'none'; // Oculta formulario
+    document.getElementById('mensajeRespuesta').innerHTML = '<span style="color: green; font-weight: bold;">¡Mensaje enviado con éxito! Te responderé pronto.</span>';
+  } else if (params.get('error') === '1') {
+    document.getElementById('mensajeRespuesta').innerHTML = '<span style="color: red;">Error al enviar. Intenta de nuevo.</span>';
+  }
+};
 </script>
 <a href="https://wa.me/50584496449" class="whatsapp-float" target="_blank">
     <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
@@ -598,3 +606,4 @@ mantenimiento.
 </div>
 </body>
 </html>
+```
